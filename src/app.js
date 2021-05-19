@@ -21,9 +21,11 @@ app.get('/cats', (req, res) => {
 
 app.get('/cats/:catId', (req, res) => {
     Cat.findByPk(req.params.catId)
-    .then((cat) => res.status(200).json(cat)) 
+    .then((cat) => { 
+        if(!cat) throw new Error("Cat does not exist")
+        res.status(200).json(cat)} ) 
     .catch((error) => {
-        res.status(400).send(error)
+        res.status(400).send(error.message)
         });
 });
 
