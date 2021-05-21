@@ -1,8 +1,14 @@
 const express = require('express');
 const { Cat } = require('./models');
-const app = express();
 
+const swaggerUi = require('swagger-ui-express');
+const swaggerDoc = require('../swagger.json');
+
+const app = express();
 app.use(express.json());
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDoc));
+
+
 
 app.post('/cats', (req, res) => {
     Cat.create(req.body).then(cat => res.status(201).send(cat))

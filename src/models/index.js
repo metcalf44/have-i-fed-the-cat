@@ -12,7 +12,7 @@ const setUpDatabase = () => {
 
     connection.sync({ alter: true });
 
-    return{ Cat };
+    return { Cat };
 };
 
 module.exports = setUpDatabase();
