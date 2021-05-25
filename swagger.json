@@ -63,7 +63,8 @@
                    "description": "cat successfully created",
                    "schema": {
                     "type": "object",
-                    "$ref": "#/definitions/CatObject"}
+                    "$ref": "#/definitions/CatObject"
+                   }
                  }
                },
                "produces": [
@@ -108,6 +109,7 @@
                 }
               }
            },
+
             "/cats/{catId}":{
                 "get": {
                     "summary": "read a single cat from the database",
@@ -131,24 +133,25 @@
                     }
                   }
                 },
+
                 "patch": {
                     "summary": "update a cat from the database",
                   "tags": [
                     "Cats"
                   ],
                   "parameters": [
+                      {
+                        "in": "path",
+                        "type": "number",
+                        "name": "catId",
+                        "required": true
+                      },
                     {
-                      "name":"PatchCatRequest",  
+                      "name": "PatchCatRequest",
                       "in": "body",
                       "description": "update a cat in the database",
                       "schema": {
                           "type": "object",
-                          "required": [
-                              "name",
-                              "breed",
-                              "markings",
-                              "lastFed"
-                          ],
                           "properties": {
                               "name": {
                                   "type": "string"
@@ -172,16 +175,72 @@
                       "schema": {
                         "type": "object",
                         "required": [
-                            "lastFed"
-                        ]
-                        
+                            "catsUpdated" 
+                        ],
+                        "properties": {
+                            "catsUpdated": {
+                                "type": "integer"
+                            }
+                        }
                       }
                     }
                   }
+                },
+
+                "delete": {
+                    "summary": "delete a cat in the database",
+                    "tags": [
+                        "Cats"
+                    ],
+                    "parameters": [
+                        {
+                            "name": "catId",
+                            "in": "path",
+                            "type": "number",
+                            "required": true
+                        }
+                    ],
+                    "responses": {
+                        "200": {
+                            "description": "deletes a cat",
+                            "schema": {
+                                "type": "object",
+                                "required": [
+                                    "catsDeleted"
+                                ],
+                                "properties": {
+                                    "catsDeleted": {
+                                        "type": "integer"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            
+            "/feed/{catId}": {
+                "patch": {
+                    "tags": [
+                        "Cats"
+                    ],
+                    "summary": "update the lastFed property of a cat to the current time",
+                    "parameters": [
+                        {
+                            "in": "path",
+                            "type": "number",
+                            "name": "catId",
+                            "required": true
+                        }
+                    ],
+                    "responses": {
+                        "200": {
+                            "description": "cat has been fed"
+                        }
+                    }
                 }
             }
-       },
-       
+        },
 
     "definitions": {
         "CatObject": {
@@ -228,13 +287,6 @@
                 }
                 }
             }
-        },
-
-        "CatsUpdated": {
-            "required": [
-                ""
-            ]
         }
-
     }
   }
